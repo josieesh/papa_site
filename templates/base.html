@@ -3,7 +3,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% block stylesheet %}<link rel="stylesheet" href="{% static 'style.css' %}"> {% endblock %}
+    <link rel="stylesheet" href="{% static 'style.css' %}"> 
+    <link href="https://fonts.googleapis.com/css?family=Peralta" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
     <!--<link rel="stylesheet" href="style.css"> -->
     <title>{% block title %}Victor Site{% endblock %}</title>
 </head>
@@ -24,7 +26,6 @@
           </div>
         </div>
       </nav>
-
     <div id="content">
         {% block content %}{% endblock %}
     </div>

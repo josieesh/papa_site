@@ -1,7 +1,7 @@
-body {
-    background-image: url(home_background.png.png);
+  .navbar-brand {
+    font-family: 'Peralta', cursive;
   }
-  
+
   .logo {
     font-family: 'Peralta', cursive;
   }
