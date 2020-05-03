@@ -4,28 +4,30 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="{% static 'style.css' %}"> 
-    <link href="https://fonts.googleapis.com/css?family=Peralta" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
     <!--<link rel="stylesheet" href="style.css"> -->
     <title>{% block title %}Victor Site{% endblock %}</title>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-        <div class="container">
-          <a class="navbar-brand" href="{% url 'home' %}">Preface</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+  <div class = 'container'>
+    <nav class="navbar">
+      <div>
+        <a class="active" href="/">Home</a>
+        <a href="/">Home</a>
+        <a href="/">Home</a>
+        <div class="dropdown">
+          <button class="dropbtn">Decades
+            <i class="fa fa-caret-down"></i>
           </button>
-          <div class="collapse navbar-collapse" id="mainMenu">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="/">TEST</a>
-              </li>
-            </ul>
+          <div class="dropdown-content">
+            <a href="/history">1900</a>
+            <a href="/history"">1910</a>
+            <a href="/history">1920</a>
           </div>
         </div>
-      </nav>
+    </nav>
+  </div>
+
     <div id="content">
         {% block content %}{% endblock %}
     </div>

@@ -1,8 +1,16 @@
 ## To run a migration
 When model is altered in the 'app' app:
 
-`python manage.py makemigrations app`
+```
+python manage.py makemigrations app
+```
 
-`python manage.py sqlmigrate app <migration number>`
+To see the resultant sql script:
 
-`python manage.py migrate`
+```
+python manage.py sqlmigrate app <migration number>
+```
+
+```
+python manage.py migrate
+```
