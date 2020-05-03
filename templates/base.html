@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block stylesheet %}<link rel="stylesheet" href="{% static 'style.css' %}"> {% endblock %}
+    <!--<link rel="stylesheet" href="style.css"> -->
+    <title>{% block title %}Victor Site{% endblock %}</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="{% url 'home' %}">Preface</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="mainMenu">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="/">TEST</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
