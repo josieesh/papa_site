@@ -1,57 +1,60 @@
-  .navbar-brand {
-    font-family: 'Peralta', cursive;
-  }
 
-  .logo {
-    font-family: 'Peralta', cursive;
-  }
-  
-  .logo a {
-    color: rgba(0,0,0,.9);
-  }
-  
-  .logo a:hover,
-  .logo a:active {
-    text-decoration: none;
-  }
+body {
+  margin: 0px;
+}
+
+#content {
+  margin: 10px;
+  padding: 10px;
+}
+#toc_container {
+  width: 40%;
+  background: rgb(165, 165, 165);
+  margin: 1 1 1em 1em;
+  padding: 2em;
+}
+#toc_container ul {
+  padding: 5;
+}
+#toc_container li {
+  margin: 0 0 0.25em 0;
+}
+#toc_container a {
+  color: #000000;
+  text-decoration: none;
+}
+#toc_container a:hover, #toc_container a:active {
+  text-decoration: underline;
+}
+.toc_title {
+  font-weight: 800;
+  text-align: center;
+}
 
 
   /* Add a black background color to the top navigation */
 .navbar {
-    background-color: #333;
+  top:0px;
+    left:0px;
+    width:100%;
+    background-color: rgb(204, 83, 83);
     overflow: hidden;
   }
   
   /* Style the links inside the navigation bar */
   .navbar a {
     float: left;
-    color: #f2f2f2;
+    color: #000000;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
     font-size: 17px;
+    border-bottom: 1px #555;
   }  
   /* Add a color to the active/current link */
   .navbar a.active {
-    background-color: rgb(76, 107, 175);;
-    color: white;
-  }
-
-   /* Add a black background color to the top navigation */
-.navbar {
-    background-color: #333;
-    overflow: hidden;
-  }
-  
-  /* Style the links inside the navigation bar */
-  .navbar a {
-    float: left;
-    display: block;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
+    background-color: #ffffff;
+    color: #000000;
   }
   
   /* Dropdown container - needed to position the dropdown content */
@@ -94,8 +97,8 @@
   
   /* Add a dark background on topnav links and the dropdown button on hover */
   .navbar a:hover, .dropdown:hover .dropbtn {
-    background-color: #555;
-    color: white;
+    background-color: white;
+    color: #000000;
   }
   
   /* Add a grey background to dropdown links on hover */
