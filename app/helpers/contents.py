@@ -2,6 +2,7 @@ class Section:
     def __init__(self, id, name, text):
         self.id = id
         self.name = name
+        self.link = name.replace(" ", "_")
         self.text = text
         self.child_sections = []
 

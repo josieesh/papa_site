@@ -3,46 +3,25 @@
 {% block title %}History{% endblock %}
 
 {% block content %}
-<div id="toc_container">
-    <p class="toc_title">Contents</p>
-     {% for id, section in level1.items %}
-    <ul>
-        <li><a href = #{{ id }}>{{ section.name }}</a>
-            <ul>
-                {% for section2 in section.child_sections %}
-                <li><a href = #{{ section2.id }}> {{ section2.name }}</a>
-                <ul>
-                    {% for section3 in section2.child_sections %}
-                    <li><a href = #{{ section3.id }}> {{ section3.name }}</a>
-                    <ul>
-                        {% for section4 in section3.child_sections %}
-                        <li><a href= #{{ section4.id }}> {{ section4.name }}</a></li>
-                    </ul></li>
-                        {% endfor %}
-                </ul></li>
-                    {% endfor %}
+<div class="content_container">
+    {% include "toc.html" %}
+        
+    {% for id, section in level1.items %}
+    <h1 id={{section.link}}><a href=#{{section.link}}>{{ section.name }}</a></h1>
+    <p>{{ section.text }}</p>
+        {% for section2 in section.child_sections %}
+            <h2 id={{section2.link}}><a href=#{{section2.link}}>{{ section2.name }}</a></h2>
+            <p>{{ section2.text }}</p>
+            {% for section3 in section2.child_sections %}
+                <h3 id={{section3.link}}><a href=#{{section3.link}}>{{ section3.name }}</a></h3>
+                <p>{{ section3.text }}</p>
+                {% for section4 in section3.child_sections %}
+                    <h4 id={{section4.link}}><a href=#{{section.link}}>{{ section4.name }}</a></h4>
+                    <p>{{ section4.text }}</p>
                 {% endfor %}
-            </ul></li>
-    </ul>
-    {% endfor %} 
-    
-
-    </div>
-    
-{% for id, section in level1.items %}
-<h1 id={{section.id}}>{{ section.name }}</h1>
-<p>{{ section.text }}</p>
-    {% for section2 in section.child_sections %}
-        <h2 id={{section2.id}}>{{ section2.name }}</h2>
-        <p>{{ section2.text }}</p>
-        {% for section3 in section2.child_sections %}
-            <h3 id={{section3.id}}>{{ section3.name }} </h3>
-            <p>{{ section3.text }}</p>
-            {% for section4 in section3.child_sections %}
-                <h4 id={{section4.id}}>{{ section4.name }}</h4>
-                <p>{{ section4.text }}</p>
             {% endfor %}
         {% endfor %}
     {% endfor %}
-{% endfor %}
+</div>
+
 {% endblock %}

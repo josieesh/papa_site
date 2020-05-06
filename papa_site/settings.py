@@ -55,7 +55,7 @@ ROOT_URLCONF = 'papa_site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': ['templates', 'app.helpers'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -64,6 +64,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries':{
+                'template_filters': 'app.helpers.template_filters',
+            }
         },
     },
 ]

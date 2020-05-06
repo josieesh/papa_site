@@ -1,4 +1,5 @@
 {% load static %}
+{% load template_filters %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,22 +10,8 @@
 </head>
 
 <body>
-    <nav class="navbar">
-      <div>
-        <a class="active" href="/">У дома</a>
-        <a href="/history">История</a>
-        <a href="/english_football">Английски футбол</a>
-        <!-- <div class="dropdown">
-          <button class="dropbtn">Decades
-            <i class="fa fa-caret-down"></i>
-          </button>
-          <div class="dropdown-content">
-            <a href="/history">1900</a>
-            <a href="/history"">1910</a>
-            <a href="/history">1920</a>
-          </div>
-        </div> -->
-    </nav>
+
+  {% include "navbar.html" %}
 
     <div id="content">
         {% block content %}{% endblock %}
@@ -32,5 +19,18 @@
 </body>
 </html>
 
-<script type="text/javascript">
-</script>
+<!-- <script type="text/javascript">
+var container = document.getElementById("navbar_links");
+var links = container.getElementsByTagName("a");
+const queryString = window.location;
+console.log(queryString);
+
+for (var i = 0; i < links.length; i++) {
+  links[i].addEventListener("click", function() {
+    console.log("inside onclick")
+    var current = document.getElementsByClassName("active");
+    current[0].className = "";
+    this.className = "active";
+  });
+}
+</script> -->

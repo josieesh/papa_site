@@ -1,0 +1,63 @@
+<div id="toc_container">
+    <div id="toc_internal">
+        <h2 class="toc_title">Съдържание</h2>
+     
+        <ul>
+            {% for id, section in level1.items %}
+            <li><a href = #{{ link }}>{{ section.name }}</a>
+                <ul>
+                    {% for section2 in section.child_sections %}
+                    <li><a href = #{{ section2.link }}> {{ section2.name }}</a>
+                    <ul>
+                        {% for section3 in section2.child_sections %}
+                        <li><a href = #{{ section3.link }}> {{ section3.name }}</a>
+                        <ul>
+                            {% for section4 in section3.child_sections %}
+                            <li><a href= #{{ section4.link }}> {{ section4.name }}</a></li>
+                            {% endfor %}
+                        </ul></li>
+                        {% endfor %}
+                    </ul></li>
+                    {% endfor %}
+            </ul></li>
+            {% endfor %} 
+        </ul>
+    </div>
+</div>
+
+<style>
+
+#toc_container {
+  width: 45%;
+  background-color: rgb(122, 23, 23);
+  padding: 15px;
+  overflow: auto;
+}
+
+#toc_internal {
+    display: inline-block;
+    width: 100%;
+  margin: 0px;
+  background-color: white;
+}
+
+#toc_container ul {
+  padding: 5;
+}
+#toc_container li {
+  margin: 0 0 0.25em 0;
+}
+
+#toc_container a {
+  color: #000000;
+  text-decoration: none;
+}
+#toc_container a:hover, #toc_container a:active {
+  text-decoration: underline;
+}
+.toc_title {
+  font-weight: 800;
+  text-align: center;
+}
+
+</style>

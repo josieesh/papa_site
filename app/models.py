@@ -8,7 +8,7 @@ class Textfile(models.Model):
     heading_level = models.IntegerField(default=1)
     tags = models.CharField(max_length=255, default=None, blank=True, null=True)
     name = models.CharField(max_length=255)
-    text = models.TextField()
+    text = models.TextField(blank=True, null=True)
     parent_page = models.ForeignKey('self', on_delete=models.PROTECT, null=True,blank=True)
     order = models.IntegerField(default=1)
     date_added = models.DateTimeField(default=datetime.now, editable=False)

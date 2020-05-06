@@ -1,0 +1,20 @@
+{% load template_filters %}
+{% block nav %}
+    <nav class="navbar">
+      <div id="navbar_links">
+        {% block nav-home %}<a class="{% add_active_class 'home' %}" href="{% url 'home' %}">У дома</a> {% endblock %}
+        {% block nav-history %}<a class="{% add_active_class 'history' %}" href="{% url 'history' %}">История</a>{% endblock %}
+        {% block nav-eng_foot %}<a class="{% add_active_class 'eng_foot' %}" href="{% url 'eng_foot' %}">Английски футбол</a>{% endblock %}
+        {% comment %}<div class="dropdown">
+          <button class="dropbtn">Decades
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="/history">1900</a>
+            <a href="/history"">1910</a>
+            <a href="/history">1920</a>
+          </div>
+        </div> {% endcomment %}
+      </div>
+    </nav>
+    {% endblock %}
