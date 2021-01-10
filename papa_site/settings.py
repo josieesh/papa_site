@@ -26,8 +26,8 @@ load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-#DEBUG = os.getenv('DJANGO_DEBUG', '') != 'False'
+#DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG', '') != 'False'
 
 ALLOWED_HOSTS = ['https://football-ru.herokuapp.com/', 'localhost', '127.0.0.1']
 
@@ -167,7 +167,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+#STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 
 # import dj_database_url

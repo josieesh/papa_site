@@ -1,0 +1,24 @@
+
+body {
+  margin: 0px;
+}
+
+* {
+  font-family: Tahoma, Arial, sans-serif;
+ }
+
+#content {
+  float: right;
+  padding-left: 15%;
+}
+
+.content_container {
+  margin: 3%;
+  margin-right: 15%;
+  text-decoration: none;
+}
+
+#content a {
+  text-decoration: none;
+  color: black;
+}
