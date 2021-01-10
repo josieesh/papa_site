@@ -18,6 +18,9 @@ from django.urls import include, path
 from app import views
 
 
+admin.autodiscover()
+
+
 urlpatterns = [
     path('', views.home, name='home'),
     path('history/', views.history, name='history'),
