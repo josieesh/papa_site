@@ -5,7 +5,7 @@
 {% block content %}
 <div class="content_container">
     <h2>{{ title }}</h2>
-    <p>{{ body }}</p>
+    {{ body | safe }}
 </div>
 
 {% endblock %}

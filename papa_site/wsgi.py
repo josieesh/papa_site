@@ -13,6 +13,4 @@ from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'papa_site.settings')
 
-print("GETTING WSGI APPLICATION")
 application = get_wsgi_application()
-print("GOT WSGI APPLICATION")

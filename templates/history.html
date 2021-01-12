@@ -8,16 +8,16 @@
         
     {% for id, section in level1.items %}
     <h1 id={{section.link}}><a href=#{{section.link}}>{{ section.name }}</a></h1>
-    <p>{{ section.text }}</p>
+    {{ section.text | safe }}
         {% for section2 in section.child_sections %}
             <h2 id={{section2.link}}><a href=#{{section2.link}}>{{ section2.name }}</a></h2>
-            <p>{{ section2.text }}</p>
+            {{ section2.text | safe | safe }}
             {% for section3 in section2.child_sections %}
                 <h3 id={{section3.link}}><a href=#{{section3.link}}>{{ section3.name }}</a></h3>
-                <p>{{ section3.text }}</p>
+                {{ section3.text | safe }}
                 {% for section4 in section3.child_sections %}
                     <h4 id={{section4.link}}><a href=#{{section.link}}>{{ section4.name }}</a></h4>
-                    <p>{{ section4.text }}</p>
+                    {{ section4.text | safe }}
                 {% endfor %}
             {% endfor %}
         {% endfor %}

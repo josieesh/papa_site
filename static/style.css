@@ -22,3 +22,7 @@ body {
   text-decoration: none;
   color: black;
 }
+
+p {
+  white-space: pre-wrap;
+}
