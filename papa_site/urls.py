@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic.base import RedirectView
 from app import views
 
 
@@ -22,7 +23,7 @@ admin.autodiscover()
 
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', RedirectView.as_view(url='english_football', permanent=False), name='home'),
     path('history/', views.history, name='history'),
     path('english_football/', views.engFoot, name='eng_foot'),
     path('admin/', admin.site.urls),
