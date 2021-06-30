@@ -7,7 +7,7 @@ class Textfile(models.Model):
     page = models.CharField(max_length=100)
     heading_level = models.IntegerField(default=1)
     tags = models.CharField(max_length=255, default=None, blank=True, null=True)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, blank=True)
     text = models.TextField(blank=True, null=True)
     is_table = models.BooleanField(default=False)
     parent_page = models.ForeignKey('self', on_delete=models.PROTECT, null=True, blank=True)
