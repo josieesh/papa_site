@@ -1,10 +1,11 @@
 class Section:
-    def __init__(self, id, name, text):
+    def __init__(self, id, name, text, is_table):
         self.id = id
         self.name = name
         self.link = name.replace(" ", "_")
         self.text = text
         self.child_sections = []
+        self.is_table = is_table
 
 def sortContents(textFiles):
     first_level = dict()
@@ -12,7 +13,7 @@ def sortContents(textFiles):
     third_level = dict()
     fourth_level = dict()
     for tf in textFiles:
-        newSection = Section(tf.id, tf.name, tf.text)
+        newSection = Section(tf.id, tf.name, tf.text, tf.is_table)
         if tf.heading_level == 1:
             first_level[tf.id] = newSection
         elif tf.heading_level == 2:

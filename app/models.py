@@ -9,7 +9,8 @@ class Textfile(models.Model):
     tags = models.CharField(max_length=255, default=None, blank=True, null=True)
     name = models.CharField(max_length=255)
     text = models.TextField(blank=True, null=True)
-    parent_page = models.ForeignKey('self', on_delete=models.PROTECT, null=True,blank=True)
+    is_table = models.BooleanField(default=False)
+    parent_page = models.ForeignKey('self', on_delete=models.PROTECT, null=True, blank=True)
     order = models.IntegerField(default=1)
     date_added = models.DateTimeField(default=datetime.now, editable=False)
     key = models.CharField(max_length=64, null=False, default=uuid.uuid4, unique=True,editable=False)
@@ -17,7 +18,7 @@ class Textfile(models.Model):
     exclude = ["date_added", "key"]
 
     def __str__(self):
-        display = "Page: " + self.page + ", Title: " + self.name + ", Order: " + str(self.order)
+        display = "Page: " + self.page + ", Title: " + self.name + ", Order: " + str(self.order) + ", Table: " + str(self.is_table)
         return display
 
 

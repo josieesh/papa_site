@@ -8,16 +8,20 @@
         
     {% for id, section in level1.items %}
     <h1 id={{section.link}}><a href=#{{section.link}}>{{ section.name }}</a></h1>
+    {% if section.is_table %}
     {{ section.text | safe }}
+    {% else %}
+    {{ section.text | linebreaks }}
+    {% endif %}
         {% for section2 in section.child_sections %}
             <h2 id={{section2.link}}><a href=#{{section2.link}}>{{ section2.name }}</a></h2>
-            {{ section2.text | safe | safe }}
+            {% if section2.is_table %} {{ section2.text | safe }} {% else %} {{ section2.text | linebreaks }} {% endif %}
             {% for section3 in section2.child_sections %}
                 <h3 id={{section3.link}}><a href=#{{section3.link}}>{{ section3.name }}</a></h3>
-                {{ section3.text | safe }}
+                {% if section3.is_table %} {{ section3.text | safe }} {% else %} {{ section3.text | linebreaks }} {% endif %}
                 {% for section4 in section3.child_sections %}
                     <h4 id={{section4.link}}><a href=#{{section.link}}>{{ section4.name }}</a></h4>
-                    {{ section4.text | safe }}
+                    {% if section4.is_table %} {{ section4.text | safe }} {% else %} {{ section4.text | linebreaks }} {% endif %}
                 {% endfor %}
             {% endfor %}
         {% endfor %}
