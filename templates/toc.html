@@ -8,17 +8,23 @@
             <li><a href = #{{ link }}>{{ section.name }}</a>
                 <ul>
                     {% for section2 in section.child_sections %}
+                    {% if section2.name %}
                     <li><a href = #{{ section2.link }}> {{ section2.name }}</a>
                     <ul>
                         {% for section3 in section2.child_sections %}
+                        {% if section3.name %}
                         <li><a href = #{{ section3.link }}> {{ section3.name }}</a>
                         <ul>
                             {% for section4 in section3.child_sections %}
+                            {% if section4.name %}
                             <li><a href= #{{ section4.link }}> {{ section4.name }}</a></li>
+                            {% endif %}
                             {% endfor %}
                         </ul></li>
+                        {% endif %}
                         {% endfor %}
                     </ul></li>
+                    {% endif %}
                     {% endfor %}
             </ul></li>
             {% endif %}
