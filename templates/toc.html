@@ -4,6 +4,7 @@
      
         <ul>
             {% for id, section in level1.items %}
+            {% if section.name %}
             <li><a href = #{{ link }}>{{ section.name }}</a>
                 <ul>
                     {% for section2 in section.child_sections %}
@@ -20,6 +21,7 @@
                     </ul></li>
                     {% endfor %}
             </ul></li>
+            {% endif %}
             {% endfor %} 
         </ul>
     </div>
