@@ -1,6 +1,6 @@
 from django.contrib import admin	
 
-from .models import Textfile, Heading1, Heading2, Page
+from .models import Textfile, Chapter, Heading1, Heading2, Heading3, Heading4, Page
 
 @admin.register(Textfile)	
 class TextfileAdmin(admin.ModelAdmin):	
@@ -11,14 +11,22 @@ class TextfileAdmin(admin.ModelAdmin):
 """
 Inlines
 """
+
+class ChapterInline(admin.TabularInline):
+    model = Chapter
+
 class Heading1Inline(admin.TabularInline):
     model = Heading1
-
 
 
 class Heading2Inline(admin.TabularInline):
     model = Heading2
 
+class Heading3Inline(admin.TabularInline):
+    model = Heading3
+
+class Heading4Inline(admin.TabularInline):
+    model = Heading4
 
 
 """
@@ -27,7 +35,13 @@ ModelAdmins
 @admin.register(Page)	
 class PageAdmin(admin.ModelAdmin):	
     inlines = [
-        Heading1Inline,
+        ChapterInline,
+    ]
+
+@admin.register(Chapter)
+class ChapterAdmin(admin.ModelAdmin):
+    inlines = [
+        Heading1Inline
     ]
 
 @admin.register(Heading1)	
@@ -36,3 +50,18 @@ class Heading1Admin(admin.ModelAdmin):
         Heading2Inline,
     ]
 
+@admin.register(Heading2)	
+class Heading2Admin(admin.ModelAdmin):	
+    inlines = [
+        Heading3Inline,
+    ]
+
+@admin.register(Heading3)	
+class Heading3Admin(admin.ModelAdmin):	
+    inlines = [
+        Heading4Inline,
+    ]
+
+@admin.register(Heading4)	
+class Heading4Admin(admin.ModelAdmin):	
+    pass

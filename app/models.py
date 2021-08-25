@@ -30,8 +30,8 @@ class Textfile(models.Model):
         return display
 
 
-class Heading1(models.Model):
-    page = models.ForeignKey(Page, on_delete=models.CASCADE)
+class Chapter(models.Model):
+    parent = models.ForeignKey(Page, verbose_name="Page", on_delete=models.CASCADE, related_name='children')
     name = models.CharField(max_length=255, blank=True)
     text = models.TextField(blank=True, null=True)
     order = models.IntegerField(default=1)
@@ -41,23 +41,89 @@ class Heading1(models.Model):
     exclude = ["date_added"]
 
     def __str__(self):
-        display = "Name: " + self.name + ", Page: " + self.page.name
-        return display
+        # display = "Name: " + self.name + ", Page: " + self.parent.name
+        # return display
+        return self.name
+
+class Heading1(models.Model):
+    parent = models.ForeignKey(Chapter, verbose_name="Chapter", on_delete=models.CASCADE, related_name='children')
+    name = models.CharField(max_length=255, blank=True)
+    text = models.TextField(blank=True, null=True)
+    order = models.IntegerField(default=1)
+    date_added = models.DateTimeField(default=datetime.now, editable=False)
+    
+
+    exclude = ["date_added"]
+
+    class Meta:
+        verbose_name = "Heading"
+        verbose_name_plural = "Headings"
+
+    def __str__(self):
+        #display = "Name: " + self.name + ", Chapter: " + self.chapter.name + ", Page: " + self.chapter.page.name
+        #return display
+        return self.name
 
 
 class Heading2(models.Model):
-    parent_heading = models.ForeignKey(Heading1, on_delete=models.CASCADE)
+    parent = models.ForeignKey(Heading1, verbose_name="Parent heading", on_delete=models.CASCADE, related_name='children')
     name = models.CharField(max_length=255, blank=True)
 
-    # def __str__(self):
-    #     display = "Page: " + self.page + ", Name: " + self.name
-    #     return display
+    class Meta:
+        verbose_name = "Second-level heading"
+        verbose_name_plural = "Second-level headings"
+
+    def __str__(self):
+        return self.name
+
+
+class Heading3(models.Model):
+    parent = models.ForeignKey(Heading2, verbose_name="Parent heading", on_delete=models.CASCADE, related_name='children')
+    name = models.CharField(max_length=255, blank=True)
+
+    class Meta:     
+        verbose_name = "Third-level heading"
+        verbose_name_plural = "Third-level headings"
+
+    def __str__(self):
+        return self.name
+
+
+class Heading4(models.Model):
+    parent = models.ForeignKey(Heading3, verbose_name="Parent heading", on_delete=models.CASCADE, related_name='children')
+    name = models.CharField(max_length=255, blank=True)
+
+    class Meta:     
+        verbose_name = "Fourth-level heading"
+        verbose_name_plural = "Fourth-level headings"
+
+    def __str__(self):
+        return self.name
 
 
 class Table(models.Model):
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name='tables')
     object_id = models.PositiveIntegerField()
     parent_heading = GenericForeignKey('content_type', 'object_id')
+    name = models.CharField(max_length=255, blank=True)
+    custom_name = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.name:
+            self.custom_name = False
+
+            # Build a name based on information we have
+            self.name = ""
+            parent = self.parent_heading
+
+            while self.parent:
+                self.name += parent.name
+                parent = parent.parent if hasattr(parent, 'parent') else None
+
+        super(Table, self).save(*args, **kwargs)
 
 
 """

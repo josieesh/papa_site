@@ -21,10 +21,13 @@ from app import views
 
 admin.autodiscover()
 
-
 urlpatterns = [
-    path('', RedirectView.as_view(url='english_football', permanent=False), name='home'),
-    path('history/', views.history, name='history'),
-    path('english_football/', views.engFoot, name='eng_foot'),
+    path('<str:page_name>/', views.view_by_page_name),
     path('admin/', admin.site.urls),
 ]
+# urlpatterns = [
+#     path('', RedirectView.as_view(url='english_football', permanent=False), name='home'),
+#     path('history/', views.history, name='history'),
+#     path('english_football/', views.engFoot, name='eng_foot'),
+#     path('admin/', admin.site.urls),
+# ]

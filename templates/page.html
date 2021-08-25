@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Английски футбол{% endblock %}
+
+{% block content %}
+<div class="content_container">
+    {% include "toc.html" %}
+        
+    {% for chapter in page.children.all %}
+    <h1 id={{chapter.id}}>{{ chapter.name }}</h1>
+    
+        {% for heading in chapter.children.all %}
+            <h2 id={{heading.id}}>{{ heading.name }}</h2>
+            
+            {% for level2heading in heading.children.all %}
+                <h3 id={{level2heading.id}}>{{ level2heading.name }}</h3>
+                
+                {% for level3heading in level2heading.children.all %}
+                <h3 id={{level3heading.id}}>{{ level3heading.name }}</h3>
+
+                    {% for level4heading in level3heading.children.all %}
+                    <h3 id={{level4heading.id}}>{{ level4heading.name }}</h3>
+                    {% endfor %}
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+</div>
+
+{% endblock %}
