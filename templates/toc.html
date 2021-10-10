@@ -3,33 +3,35 @@
         <h2 class="toc_title">Съдържание</h2>
      
         <ul>
-            {% for id, section in level1.items %}
-            {% if section.name %}
-            <li><a href = #{{ link }}>{{ section.name }}</a>
-                <ul>
-                    {% for section2 in section.child_sections %}
-                    {% if section2.name %}
-                    <li><a href = #{{ section2.link }}> {{ section2.name }}</a>
-                    <ul>
-                        {% for section3 in section2.child_sections %}
-                        {% if section3.name %}
-                        <li><a href = #{{ section3.link }}> {{ section3.name }}</a>
-                        <ul>
-                            {% for section4 in section3.child_sections %}
-                            {% if section4.name %}
-                            <li><a href= #{{ section4.link }}> {{ section4.name }}</a></li>
-                            {% endif %}
-                            {% endfor %}
-                        </ul></li>
-                        {% endif %}
-                        {% endfor %}
+          {% for chapter in page.children.all %}
+          <li><a href = #{{ chapter.url_name }}>{{ chapter.name }}</a>
+            <ul>
+    
+        {% for heading in chapter.children.all %}
+        <li><a href = #{{ heading.url_name }}>{{ heading.name }}</a>
+          <ul>
+             
+            {% for level2heading in heading.children.all %}
+            <li><a href = #{{ level2heading.url_name }}>{{ level2heading.name }}</a>
+              <ul>
+                
+                {% for level3heading in level2heading.children.all %}
+                <li><a href = #{{ level3heading.url_name }}>{{ level3heading.name }}</a>
+                  <ul>
+
+                    {% for level4heading in level3heading.children.all %}
+                    <li><a href = #{{ level4heading.url_name }}>{{ level4heading.name }}</a>
                     </ul></li>
-                    {% endif %}
                     {% endfor %}
-            </ul></li>
-            {% endif %}
-            {% endfor %} 
-        </ul>
+                  </ul></li>
+                {% endfor %}
+              </ul></li>
+            {% endfor %}
+          </ul></li>
+        {% endfor %}
+      </ul></li>
+    {% endfor %}
+    </ul>
     </div>
 </div>
 

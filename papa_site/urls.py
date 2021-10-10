@@ -22,8 +22,9 @@ from app import views
 admin.autodiscover()
 
 urlpatterns = [
-    path('<str:page_name>/', views.view_by_page_name),
     path('admin/', admin.site.urls),
+    path('<str:page_name>/', views.view_by_page_name, name='page'),
+    
 ]
 # urlpatterns = [
 #     path('', RedirectView.as_view(url='english_football', permanent=False), name='home'),
