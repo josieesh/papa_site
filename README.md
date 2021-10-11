@@ -39,3 +39,8 @@ Run the server.
 ```
 python manage.py runserver
 ```
+
+## Pushing latest commit to Heroku
+```
+git push heroku master
+```
