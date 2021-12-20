@@ -10,7 +10,8 @@ from typing import List
 # HISTORY_PAGE_NAME= 'History'
 # ENG_FOOT_PAGE_NAME= 'English_Football'
 
-all_pages: List[Page] = list(Page.objects.all())
+# all_pages: List[Page] = list(Page.objects.all())
+all_pages = []
 
 def landing(request) -> HttpResponse:
     return render(request, 'home.html')  
