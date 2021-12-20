@@ -4,7 +4,7 @@ import uuid
 from django.contrib import admin
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-
+from app.model_helpers import create_html_table
 class Page(models.Model):
     name = models.CharField(max_length=255)
     url_name = models.CharField(max_length=255, blank=True, null=True)
@@ -18,25 +18,6 @@ class Page(models.Model):
         if not self.url_name:
             self.url_name = self.name.replace(" ", "_")
         super(Page, self).save(*args, **kwargs)
-    
-
-class Textfile(models.Model):
-    page = models.CharField(max_length=100)
-    heading_level = models.IntegerField(default=1)
-    name = models.CharField(max_length=255, blank=True)
-    text = models.TextField(blank=True, null=True)
-    is_table = models.BooleanField(default=False)
-    parent_page = models.ForeignKey('self', on_delete=models.PROTECT, null=True, blank=True)
-    order = models.IntegerField(default=1)
-    date_added = models.DateTimeField(default=datetime.now, editable=False)
-    key = models.CharField(max_length=64, null=False, default=uuid.uuid4, unique=True,editable=False)
-
-    exclude = ["date_added", "key"]
-
-    def __str__(self):
-        display = "Page: " + self.page + ", Title: " + self.name + ", Order: " + str(self.order) + ", Table: " + str(self.is_table)
-        return display
-
 
 class Chapter(models.Model):
     parent = models.ForeignKey(Page, verbose_name="Page", on_delete=models.CASCADE, related_name='children')
@@ -64,7 +45,7 @@ class Chapter(models.Model):
 
 class Heading1(models.Model):
     parent = models.ForeignKey(Chapter, verbose_name="Chapter", on_delete=models.CASCADE, related_name='children')
-    name = models.CharField(max_length=255, blank=True)
+    name = models.CharField(max_length=255, blank=False)
     text = models.TextField(blank=True, null=True)
     order = models.IntegerField(default=1)
     date_added = models.DateTimeField(default=datetime.now, editable=False)
@@ -89,7 +70,7 @@ class Heading1(models.Model):
 
 class Heading2(models.Model):
     parent = models.ForeignKey(Heading1, verbose_name="Parent heading", on_delete=models.CASCADE, related_name='children')
-    name = models.CharField(max_length=255, blank=True)
+    name = models.CharField(max_length=255, blank=False)
     text = models.TextField(blank=True, null=True)
     url_name = models.CharField(max_length=255, blank=True, null=True)
 
@@ -109,7 +90,7 @@ class Heading2(models.Model):
 
 class Heading3(models.Model):
     parent = models.ForeignKey(Heading2, verbose_name="Parent heading", on_delete=models.CASCADE, related_name='children')
-    name = models.CharField(max_length=255, blank=True)
+    name = models.CharField(max_length=255, blank=False)
     text = models.TextField(blank=True, null=True)
     url_name = models.CharField(max_length=255, blank=True, null=True)
 
@@ -128,7 +109,7 @@ class Heading3(models.Model):
 
 class Heading4(models.Model):
     parent = models.ForeignKey(Heading3, verbose_name="Parent heading", on_delete=models.CASCADE, related_name='children')
-    name = models.CharField(max_length=255, blank=True)
+    name = models.CharField(max_length=255, blank=False)
     text = models.TextField(blank=True, null=True)
     url_name = models.CharField(max_length=255, blank=True, null=True)
 
@@ -152,6 +133,8 @@ class Table(models.Model):
     name = models.CharField(max_length=255, blank=True)
     custom_name = models.BooleanField(default=True)
     url_name = models.CharField(max_length=255, blank=True, null=True)
+    plaintext = models.TextField(blank=True, null=True)
+    html = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -163,12 +146,15 @@ class Table(models.Model):
             self.custom_name = False
 
             # Build a name based on information we have
-            self.name = ""
+            self.name = "_table"
             parent = self.parent_heading
 
             while self.parent:
-                self.name += parent.name
+                self.name = parent.name + "_" + self.name
                 parent = parent.parent if hasattr(parent, 'parent') else None
+
+        if not self.html:
+            self.html = create_html_table(self.plaintext)
 
         super(Table, self).save(*args, **kwargs)
 

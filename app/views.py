@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from app.models import Textfile, Page
+from app.models import Page
 from django.shortcuts import render
 from django.views import generic
 from django.views.generic import ListView, View
