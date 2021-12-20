@@ -2,4 +2,3 @@ venv
 textfiles
 .env
 *.pyc
-db.sqlite3
