@@ -2,3 +2,4 @@ venv
 textfiles
 .env
 *.pyc
+db_backup.sqlite3
