@@ -1,6 +1,6 @@
 from django.contrib import admin	
 
-from .models import Chapter, Heading1, Heading2, Heading3, Heading4, Page
+from .models import Chapter, Heading1, Heading2, Heading3, Heading4, Page, Table
 
 """
 Inlines
@@ -22,6 +22,9 @@ class Heading3Inline(admin.TabularInline):
 class Heading4Inline(admin.TabularInline):
     model = Heading4
 
+class TableInline(admin.TabularInline):
+    model = Table
+
 
 """
 ModelAdmins
@@ -35,27 +38,31 @@ class PageAdmin(admin.ModelAdmin):
 @admin.register(Chapter)
 class ChapterAdmin(admin.ModelAdmin):
     inlines = [
-        Heading1Inline
+        Heading1Inline,
+        TableInline
     ]
 
 @admin.register(Heading1)	
 class Heading1Admin(admin.ModelAdmin):	
     inlines = [
         Heading2Inline,
+        TableInline
     ]
 
 @admin.register(Heading2)	
 class Heading2Admin(admin.ModelAdmin):	
     inlines = [
         Heading3Inline,
+        TableInline
     ]
 
 @admin.register(Heading3)	
 class Heading3Admin(admin.ModelAdmin):	
     inlines = [
         Heading4Inline,
+        TableInline
     ]
 
 @admin.register(Heading4)	
 class Heading4Admin(admin.ModelAdmin):	
-    pass
+    inlines = [TableInline]
