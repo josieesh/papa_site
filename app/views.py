@@ -10,13 +10,12 @@ from typing import List
 # HISTORY_PAGE_NAME= 'History'
 # ENG_FOOT_PAGE_NAME= 'English_Football'
 
-# all_pages: List[Page] = list(Page.objects.all())
-all_pages = []
 
 def landing(request) -> HttpResponse:
     return render(request, 'home.html')  
 
 def view_by_page_name(request, page_name: str = "") -> HttpResponse:
+    all_pages: List[Page] = list(Page.objects.all())
     # If there are no pages, return the default homepage
     if not all_pages:
         return render(request, 'home.html')
