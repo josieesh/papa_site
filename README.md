@@ -40,6 +40,21 @@ Run the server.
 python manage.py runserver
 ```
 
+## Sqlite
+```
+sqlite db.sqlite3
+```
+To see all tables for papa_site
+```
+.tables
+```
+To see a schema of a table
+E.g.
+```
+$ .schema app_page
+CREATE TABLE IF NOT EXISTS "app_page" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(255) NOT NULL, "url_name" varchar(255) NULL);
+```
+
 ## Pushing latest commit to Heroku
 ```
 git push heroku master

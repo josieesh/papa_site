@@ -12,14 +12,14 @@ from typing import List
 
 all_pages: List[Page] = list(Page.objects.all())
 
+def landing(request) -> HttpResponse:
+    return render(request, 'home.html')  
 
-def view_by_page_name(request, page_name: str) -> HttpResponse:
+
+def view_by_page_name(request, page_name: str = "") -> HttpResponse:
     # If there are no pages, return the default homepage
     if not all_pages:
-        return render(request, 'home.html', context={
-            'title': 'Placeholder Title',
-            'body': 'Placeholder body blah blah blah',
-            })
+        return render(request, 'home.html')
 
     for page in all_pages:
         if page.url_name == page_name:
