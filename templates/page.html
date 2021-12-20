@@ -8,11 +8,19 @@
         
     {% for chapter in page.children.all %}
     <h1 id={{chapter.url_name}}>{{ chapter.name }}</h1>
-    {{ chapter.text|linebreaks }}
+    {% if chapter.is_html %}
+        {{ chapter.text|safe }}
+    {% else %}
+        {{ chapter.text|linebreaks }}
+    {% endif %}
     
         {% for heading in chapter.children.all %}
             <h2 id={{heading.url_name}}>{{ heading.name }}</h2>
-            {{ heading.text|linebreaks }}
+            {% if heading.is_html %}
+                {{ heading.text|safe }}
+            {% else %}
+                {{ heading.text|linebreaks }}
+            {% endif %}
              
             {% for level2heading in heading.children.all %}
                 <h3 id={{level2heading.url_name}}>{{ level2heading.name }}</h3>
