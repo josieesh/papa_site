@@ -12,6 +12,12 @@ def get_csv(file_content):
 # TABLE CREATION
 # **************
 
+def create_or_recreate_object_html(obj_type, instance):
+    old = obj_type.objects.filter(pk=getattr(instance, "id", None)).first()
+    if instance.is_html and instance.text and ((old and instance.text != old.text) or not old):
+        # Recreate or create brand new html
+        instance.text = create_html_table(instance.text)
+
 def create_html_table(plaintext):
     csv = get_csv(plaintext)
     lines = csv.splitlines()
@@ -51,7 +57,6 @@ def create_html_table(plaintext):
             html += "</tr>\n"
 
     html += "</table>"
-    print(html)
     return html
     
 
