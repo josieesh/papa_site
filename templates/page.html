@@ -24,15 +24,27 @@
              
             {% for level2heading in heading.children.all %}
                 <h3 id={{level2heading.url_name}}>{{ level2heading.name }}</h3>
-                {{ level2heading.text|linebreaks }}
+                {% if level2heading.is_html %}
+                    {{ level2heading.text|safe }}
+                {% else %}
+                    {{ level2heading.text|linebreaks }}
+                {% endif %}
                 
                 {% for level3heading in level2heading.children.all %}
                 <h3 id={{level3heading.url_name}}>{{ level3heading.name }}</h3>
-                {{ level3heading.text|linebreaks }}
+                    {% if level3heading.is_html %}
+                        {{ level3heading.text|safe }}
+                    {% else %}
+                        {{ level3heading.text|linebreaks }}
+                    {% endif %}
 
                     {% for level4heading in level3heading.children.all %}
-                    <h3 id={{level4heading.url_name}}>{{ level4heading.name }}</h3>
-                    {{ level4heading.text|linebreaks }}
+                        <h3 id={{level4heading.url_name}}>{{ level4heading.name }}</h3>
+                        {% if level4heading.is_html %}
+                            {{ level4heading.text|safe }}
+                        {% else %}
+                            {{ level4heading.text|linebreaks }}
+                        {% endif %}
                     {% endfor %}
                 {% endfor %}
             {% endfor %}
