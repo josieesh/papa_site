@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.landing, name='page'),
     path('<str:page_name>/', views.view_by_page_name, name='page'),
+    path('tinymce/', include('tinymce.urls')),
     
 ]
 # urlpatterns = [

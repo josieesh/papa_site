@@ -4,9 +4,20 @@ import uuid
 from django.contrib import admin
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+
 #from django.db.models.signals import pre_init
 from .model_helpers import create_html_table, create_or_recreate_object_html
+    
+class TableBase(models.Model):
+    name = models.CharField(max_length=255, blank=True)
+    html = models.TextField(blank=True, null=True)
+    
+    
+    def __str__(self):
+        return self.name if self.name else "<N/A>"
 
+    class Meta:
+        abstract = True
 class Page(models.Model):
     name = models.CharField(max_length=255)
     url_name = models.CharField(max_length=255, blank=True, null=True)
@@ -43,10 +54,14 @@ class Chapter(models.Model):
         create_or_recreate_object_html(Chapter, self)
         super(Chapter, self).save(*args, **kwargs)
 
+class ChapterTable(TableBase):
+    chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE, related_name="tables")
+
 class Heading1(models.Model):
     parent = models.ForeignKey(Chapter, verbose_name="Chapter", on_delete=models.CASCADE, related_name='children')
     name = models.CharField(max_length=255, blank=True)
     text = models.TextField(blank=True, null=True)
+    table_html = models.TextField(blank=True, null=True)
     order = models.IntegerField(default=1)
     date_added = models.DateTimeField(default=datetime.now, editable=False)
     url_name = models.CharField(max_length=255, blank=True, null=True)
@@ -78,6 +93,7 @@ class Heading2(models.Model):
     parent = models.ForeignKey(Heading1, verbose_name="Parent heading", on_delete=models.CASCADE, related_name='children')
     name = models.CharField(max_length=255, blank=True)
     text = models.TextField(blank=True, null=True)
+    table_html = models.TextField(blank=True, null=True)
     url_name = models.CharField(max_length=255, blank=True, null=True)
     order = models.IntegerField(default=1)
     is_html = models.BooleanField(default=False, verbose_name="Turn text into HTML")
@@ -100,6 +116,7 @@ class Heading3(models.Model):
     parent = models.ForeignKey(Heading2, verbose_name="Parent heading", on_delete=models.CASCADE, related_name='children')
     name = models.CharField(max_length=255, blank=True)
     text = models.TextField(blank=True, null=True)
+    table_html = models.TextField(blank=True, null=True)
     url_name = models.CharField(max_length=255, blank=True, null=True)
     order = models.IntegerField(default=1)
     is_html = models.BooleanField(default=False, verbose_name="Turn text into HTML")
@@ -121,6 +138,7 @@ class Heading4(models.Model):
     parent = models.ForeignKey(Heading3, verbose_name="Parent heading", on_delete=models.CASCADE, related_name='children')
     name = models.CharField(max_length=255, blank=True)
     text = models.TextField(blank=True, null=True)
+    table_html = models.TextField(blank=True, null=True)
     url_name = models.CharField(max_length=255, blank=True, null=True)
     order = models.IntegerField(default=1)
     is_html = models.BooleanField(default=False, verbose_name="Turn text into HTML")
