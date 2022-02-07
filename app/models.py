@@ -6,18 +6,19 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
 #from django.db.models.signals import pre_init
-from .model_helpers import create_html_table, create_or_recreate_object_html
+from .model_helpers import create_html_table
     
 class TableBase(models.Model):
     name = models.CharField(max_length=255, blank=True)
     html = models.TextField(blank=True, null=True)
-    
+    order = models.IntegerField(default=1) #TODO: ordering
     
     def __str__(self):
-        return self.name if self.name else "<N/A>"
+        return self.name if self.name else "Table " + self.order
 
     class Meta:
         abstract = True
+        
 class Page(models.Model):
     name = models.CharField(max_length=255)
     url_name = models.CharField(max_length=255, blank=True, null=True)
@@ -39,7 +40,6 @@ class Chapter(models.Model):
     order = models.IntegerField(default=1) #TODO: ordering
     date_added = models.DateTimeField(default=datetime.now, editable=False)
     url_name = models.CharField(max_length=255, blank=True, null=True)
-    is_html = models.BooleanField(default=False, verbose_name="Turn text into HTML")
 
     exclude = ["date_added"]
 
@@ -51,7 +51,6 @@ class Chapter(models.Model):
     def save(self, *args, **kwargs):
         if not self.url_name:
             self.url_name = self.parent.url_name + "_" + self.name.replace(" ", "_")
-        create_or_recreate_object_html(Chapter, self)
         super(Chapter, self).save(*args, **kwargs)
 
 class ChapterTable(TableBase):
@@ -65,14 +64,8 @@ class Heading1(models.Model):
     order = models.IntegerField(default=1)
     date_added = models.DateTimeField(default=datetime.now, editable=False)
     url_name = models.CharField(max_length=255, blank=True, null=True)
-    is_html = models.BooleanField(default=False, verbose_name="Turn text into HTML")
 
     exclude = ["date_added"]
-
-    def save(self):
-        if self.is_html:
-            self.text = create_html_table(self.text)
-        super(Heading1, self).save()
     class Meta:
         verbose_name = "Heading"
         verbose_name_plural = "Headings"
@@ -85,7 +78,6 @@ class Heading1(models.Model):
     def save(self, *args, **kwargs):
         if not self.url_name:
             self.url_name = self.parent.url_name + "_" + self.name.replace(" ", "_")
-        create_or_recreate_object_html(Heading1, self)
         super(Heading1, self).save(*args, **kwargs)
 
 
@@ -96,7 +88,6 @@ class Heading2(models.Model):
     table_html = models.TextField(blank=True, null=True)
     url_name = models.CharField(max_length=255, blank=True, null=True)
     order = models.IntegerField(default=1)
-    is_html = models.BooleanField(default=False, verbose_name="Turn text into HTML")
 
     class Meta:
         verbose_name = "Second-level heading"
@@ -108,7 +99,6 @@ class Heading2(models.Model):
     def save(self, *args, **kwargs):
         if not self.url_name:
             self.url_name = self.parent.url_name + "_" + self.name.replace(" ", "_")
-        create_or_recreate_object_html(Heading2, self)
         super(Heading2, self).save(*args, **kwargs)
 
 
@@ -119,7 +109,6 @@ class Heading3(models.Model):
     table_html = models.TextField(blank=True, null=True)
     url_name = models.CharField(max_length=255, blank=True, null=True)
     order = models.IntegerField(default=1)
-    is_html = models.BooleanField(default=False, verbose_name="Turn text into HTML")
     class Meta:     
         verbose_name = "Third-level heading"
         verbose_name_plural = "Third-level headings"
@@ -130,7 +119,6 @@ class Heading3(models.Model):
     def save(self, *args, **kwargs):
         if not self.url_name:
             self.url_name = self.parent.url_name + "_" + self.name.replace(" ", "_")
-        create_or_recreate_object_html(Heading3, self)
         super(Heading3, self).save(*args, **kwargs)
 
 
@@ -141,7 +129,6 @@ class Heading4(models.Model):
     table_html = models.TextField(blank=True, null=True)
     url_name = models.CharField(max_length=255, blank=True, null=True)
     order = models.IntegerField(default=1)
-    is_html = models.BooleanField(default=False, verbose_name="Turn text into HTML")
     class Meta:     
         verbose_name = "Fourth-level heading"
         verbose_name_plural = "Fourth-level headings"
@@ -152,7 +139,6 @@ class Heading4(models.Model):
     def save(self, *args, **kwargs):
         if not self.url_name:
             self.url_name = self.parent.url_name + "_" + self.name.replace(" ", "_")
-        create_or_recreate_object_html(Heading4, self)
         super(Heading4, self).save(*args, **kwargs)
 
 

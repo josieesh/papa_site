@@ -1,7 +1,9 @@
 from django.contrib import admin
 from django import forms
+from django.db import models
 from django.utils.safestring import mark_safe
 from django.forms import widgets
+from .model_helpers import create_html_table
 
 from .models import TableBase, Chapter, Heading1, Heading2, Heading3, Heading4, Page, ChapterTable
 
@@ -17,15 +19,11 @@ Forms
 """
 from django import forms
 class BaseTableForm(forms.ModelForm):
-    headers = forms.CharField()
-    rows = forms.CharField()
+    plaintext = forms.CharField(required=True)
 
     def save(self, commit=True):
-        headers = self.cleaned_data.get('headers', None)
-        rows = self.cleaned_data.get('rows', None)
-        print("GOT HEADERS")
-        print(headers)
-        print(rows)
+        plaintext = self.cleaned_data.get('plaintext', None)
+        self.html = create_html_table(plaintext)
         # ...do something with extra_field here...
         return super(BaseTableForm, self).save(commit=commit)
 
@@ -34,7 +32,7 @@ class BaseTableForm(forms.ModelForm):
 class ChapterTableForm(BaseTableForm):
     class Meta:
         model = ChapterTable
-        fields = '__all__'
+        fields = ['name']
 
 
 """
@@ -43,11 +41,28 @@ Inlines
 
 class ChapterTableInline(admin.TabularInline):
     model = ChapterTable
+    form = ChapterTableForm
     verbose_name = "Table"
     verbose_name_plural = "Tables"
 
+    def get_form(self, request, obj=None, **kwargs):
+        # Proper kwargs are form, fields, exclude, formfield_callback
+        if obj: # obj is not None, so this is a change page
+            kwargs['exclude'] = ['html']
+        else: # obj is None, so this is an add page
+            pass
+        return super(ChapterTableInline, self).get_form(request, obj, **kwargs)
+
+    # def add_view(self,request,extra_content=None):
+    #     self.exclude = ('html')
+    #     return super(ChapterTableInline,self).add_view(request)
+
+    # def change_view(self,request,object_id,extra_content=None):
+    #     return super(ChapterTableInline,self).change_view(request,object_id)
+
 class ChapterInline(admin.TabularInline):
     model = Chapter
+
 
 class Heading1Inline(admin.TabularInline):
     model = Heading1
@@ -56,25 +71,18 @@ class Heading1Inline(admin.TabularInline):
 class Heading2Inline(admin.TabularInline):
     model = Heading2
 
+
 class Heading3Inline(admin.TabularInline):
     model = Heading3
 
+
 class Heading4Inline(admin.TabularInline):
     model = Heading4
-
-# class TableInline(admin.TabularInline):
-#     model = Table
 
 
 """
 ModelAdmins
 """
-
-@admin.register(ChapterTable)
-class ChapterTableAdmin(admin.ModelAdmin):
-    form = ChapterTableForm
-    fieldsets = TABLE_FIELDSETS
-
 
 @admin.register(Page)	
 class PageAdmin(admin.ModelAdmin):	
