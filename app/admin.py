@@ -1,3 +1,4 @@
+from pydoc import plain
 from django.contrib import admin
 from django import forms
 from django.db import models
@@ -19,14 +20,22 @@ Forms
 """
 from django import forms
 class BaseTableForm(forms.ModelForm):
-    plaintext = forms.CharField(required=True)
+    plaintext = forms.CharField(required=False)
+    html = forms.CharField(required=False)
 
     def save(self, commit=True):
+        instance = super(BaseTableForm, self).save(commit=commit)
         plaintext = self.cleaned_data.get('plaintext', None)
-        self.html = create_html_table(plaintext)
-        # ...do something with extra_field here...
-        return super(BaseTableForm, self).save(commit=commit)
+        if plaintext != '':
+            print(plaintext)
+            instance.html = create_html_table(plaintext)
 
+            print("\n\n\n")
+            print(instance.html)
+            print("\n\n\n")
+
+            instance.save()
+        return instance
     
 
 class ChapterTableForm(BaseTableForm):
@@ -96,6 +105,12 @@ class ChapterAdmin(admin.ModelAdmin):
     inlines = [
         Heading1Inline, ChapterTableInline
     ]
+
+
+# @admin.register(ChapterTable)
+# class ChapterTableAdmin(admin.ModelAdmin):
+#     def save_model(self, request, obj, form, change):
+#         super().save_model(request, obj, form, change)
 
 
 @admin.register(Heading1)	

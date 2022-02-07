@@ -49,7 +49,11 @@
                 {% endfor %}
             {% endfor %}
         {% endfor %}
+        {% for table in chapter.tables.all %}
+            {{ table.html|safe }}
+            {% endfor %}
     {% endfor %}
+    
 </div>
 
 {% endblock %}
