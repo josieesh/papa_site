@@ -60,7 +60,6 @@ class Heading1(models.Model):
     parent = models.ForeignKey(Chapter, verbose_name="Chapter", on_delete=models.CASCADE, related_name='children')
     name = models.CharField(max_length=255, blank=True)
     text = models.TextField(blank=True, null=True)
-    table_html = models.TextField(blank=True, null=True)
     order = models.IntegerField(default=1)
     date_added = models.DateTimeField(default=datetime.now, editable=False)
     url_name = models.CharField(max_length=255, blank=True, null=True)
@@ -88,7 +87,6 @@ class Heading2(models.Model):
     parent = models.ForeignKey(Heading1, verbose_name="Parent heading", on_delete=models.CASCADE, related_name='children')
     name = models.CharField(max_length=255, blank=True)
     text = models.TextField(blank=True, null=True)
-    table_html = models.TextField(blank=True, null=True)
     url_name = models.CharField(max_length=255, blank=True, null=True)
     order = models.IntegerField(default=1)
 
@@ -112,7 +110,6 @@ class Heading3(models.Model):
     parent = models.ForeignKey(Heading2, verbose_name="Parent heading", on_delete=models.CASCADE, related_name='children')
     name = models.CharField(max_length=255, blank=True)
     text = models.TextField(blank=True, null=True)
-    table_html = models.TextField(blank=True, null=True)
     url_name = models.CharField(max_length=255, blank=True, null=True)
     order = models.IntegerField(default=1)
     class Meta:     
@@ -135,7 +132,6 @@ class Heading4(models.Model):
     parent = models.ForeignKey(Heading3, verbose_name="Parent heading", on_delete=models.CASCADE, related_name='children')
     name = models.CharField(max_length=255, blank=True)
     text = models.TextField(blank=True, null=True)
-    table_html = models.TextField(blank=True, null=True)
     url_name = models.CharField(max_length=255, blank=True, null=True)
     order = models.IntegerField(default=1)
     class Meta:     
