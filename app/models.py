@@ -80,6 +80,9 @@ class Heading1(models.Model):
             self.url_name = self.parent.url_name + "_" + self.name.replace(" ", "_")
         super(Heading1, self).save(*args, **kwargs)
 
+class Heading1Table(TableBase):
+    chapter = models.ForeignKey(Heading1, on_delete=models.CASCADE, related_name="tables")
+
 
 class Heading2(models.Model):
     parent = models.ForeignKey(Heading1, verbose_name="Parent heading", on_delete=models.CASCADE, related_name='children')
@@ -101,6 +104,9 @@ class Heading2(models.Model):
             self.url_name = self.parent.url_name + "_" + self.name.replace(" ", "_")
         super(Heading2, self).save(*args, **kwargs)
 
+class Heading2Table(TableBase):
+    chapter = models.ForeignKey(Heading2, on_delete=models.CASCADE, related_name="tables")
+
 
 class Heading3(models.Model):
     parent = models.ForeignKey(Heading2, verbose_name="Parent heading", on_delete=models.CASCADE, related_name='children')
@@ -120,6 +126,9 @@ class Heading3(models.Model):
         if not self.url_name:
             self.url_name = self.parent.url_name + "_" + self.name.replace(" ", "_")
         super(Heading3, self).save(*args, **kwargs)
+
+class Heading3Table(TableBase):
+    chapter = models.ForeignKey(Heading3, on_delete=models.CASCADE, related_name="tables")
 
 
 class Heading4(models.Model):
@@ -141,6 +150,8 @@ class Heading4(models.Model):
             self.url_name = self.parent.url_name + "_" + self.name.replace(" ", "_")
         super(Heading4, self).save(*args, **kwargs)
 
+class Heading4Table(TableBase):
+    chapter = models.ForeignKey(Heading4, on_delete=models.CASCADE, related_name="tables")
 
 """
 heading = Heading1.objects.get(name='Blahblah')

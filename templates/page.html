@@ -45,13 +45,25 @@
                         {% else %}
                             {{ level4heading.text|linebreaks }}
                         {% endif %}
+                        {% for table in level4heading.tables.all %}
+                            {{ table.html|safe }}
+                        {% endfor %}
+                    {% endfor %}
+                    {% for table in level3heading.tables.all %}
+                        {{ table.html|safe }}
                     {% endfor %}
                 {% endfor %}
+                {% for table in level2heading.tables.all %}
+                    {{ table.html|safe }}
+                {% endfor %}
+            {% endfor %}
+            {% for table in heading.tables.all %}
+                {{ table.html|safe }}
             {% endfor %}
         {% endfor %}
         {% for table in chapter.tables.all %}
             {{ table.html|safe }}
-            {% endfor %}
+        {% endfor %}
     {% endfor %}
     
 </div>
