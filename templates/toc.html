@@ -3,7 +3,7 @@
         <h2 class="toc_title">Съдържание</h2>
      
         <ul>
-          {% for chapter in page.children.all %}
+          {% for chapter in all_chapters %}
           <li><a href = #{{ chapter.url_name }}>{{ chapter.name }}</a>
             <ul>
     

@@ -1,18 +1,24 @@
 from django.http import HttpResponse
-from app.models import Page
-from django.shortcuts import render
+from django.core.paginator import Paginator
+from app.models import Page, Chapter
+from django.shortcuts import render, redirect
 from django.views import generic
 from django.views.generic import ListView, View
 from app.helpers.contents import sortContents
 from typing import List
 
+
 # HOMEPAGE_NAME = 'Home'
 # HISTORY_PAGE_NAME= 'History'
 # ENG_FOOT_PAGE_NAME= 'English_Football'
 
+CHAPTERS_PER_PAGE = 2
+
 
 def landing(request) -> HttpResponse:
-    return render(request, 'home.html')  
+    response = redirect('/english_football/')
+    return response
+  
 
 def view_by_page_name(request, page_name: str = "") -> HttpResponse:
     all_pages: List[Page] = list(Page.objects.all())
@@ -22,23 +28,27 @@ def view_by_page_name(request, page_name: str = "") -> HttpResponse:
 
     for page in all_pages:
         if page.url_name == page_name:
-            # html = build_page_html(page)
+            chapters = Chapter.objects.filter(
+                parent=page).order_by('order')
+
+            paginator = Paginator(chapters, CHAPTERS_PER_PAGE)
+            page_number = request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
+	
             context = {
                 'page_name': page.name,
                 # 'html': html,
-                'page': page,
-                'all_pages': all_pages
+                'all_chapters': chapters,
+                'paginated_chapters': page_obj,
+                'all_pages': all_pages,
+                'chapters_per_page': CHAPTERS_PER_PAGE,
             }
-
+            # return render(request=request, template_name="main/movies.html", context={'movies':page_obj})
             return render(request, 'page.html', context=context)
 
     # By default try to return the first page in the list
     #html = build_page_html(all_pages[0])
     context = {
-        'page_name': all_pages[0].name,
-        #'html': html,
-        'page': all_pages[0],
-        'all_pages': all_pages
     }
     return render(request, 'page.html', context=context)   
     

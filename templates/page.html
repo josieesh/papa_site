@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 
+
 {% block title %}{{page_name}}{% endblock %}
 
 {% block content %}
 <div class="content_container">
     {% include "toc.html" %}
         
-    {% for chapter in page.children.all %}
+    {% for chapter in paginated_chapters %}
     <h1 id={{chapter.url_name}}>{{ chapter.name }}</h1>
     {% if chapter.is_html %}
         {{ chapter.text|safe }}
@@ -73,4 +74,45 @@
     
 </div>
 
+<!--Pagination-->
+
+<span class="step-links">
+    {% if paginated_chapters.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ paginated_chapters.previous_page_number }}">previous</a>
+    {% endif %}
+</span>
+<span class="current">
+    Page {{ paginated_chapters.number }} of {{ paginated_chapters.paginator.num_pages }}
+</span>
+<div class="pagination">
+{% if paginated_chapters.has_next %}
+    <a href="?page={{ paginated_chapters.next_page_number }}">next</a>
+    <a href="?page={{ paginated_chapters.paginator.num_pages }}">last &raquo;</a>
+{% endif %}
+    
+</div>
+    
+  <!--end of Pagination-->
+
+  <style>
+    .pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: center;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color: #ee8888;
+  color: white;
+}
+
+.pagination a:hover:not(.active) {background-color: rgb(255, 120, 120);}
+</style>
 {% endblock %}
+

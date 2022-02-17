@@ -42,19 +42,36 @@ def create_html_table(plaintext):
     </style>
     <table>
     """
+    headers = lines[0].split(",")
+    rows = lines[1:]
 
     # Read Headers
     html += "<th>"
-    for header in lines[0].split(","):
-        html += f"<td>{header}</td>"
+    # Special case is where the table has headers that span multiple columns
+    special_case = False 
+    if len(headers) == 3:
+        special_case = True
+        html += "<td></td>"
+    for header in headers:
+        html += "<td"
+        if special_case:
+            html += " colspan=\"5\""
+        html += f">{header}</td>"
     html += "</th>"
 
 
-    for line in lines[1:]:
-            html += "<tr>"
-            for entry in line.split(','):
+    for row in rows:
+        html += "<tr>"
+        entries = row.split(',')
+        entry = ""
+        for i in range(len(entries)):
+            entry += entries[i]
+            if entry[len(entry)-1] != ":":
                 html += f"<td>{entry}</td>"
-            html += "</tr>\n"
+                entry = ""
+
+            
+        html += "</tr>\n"
 
     html += "</table>"
     return html
