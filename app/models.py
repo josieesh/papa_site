@@ -10,6 +10,7 @@ from .model_helpers import create_html_table
     
 class TableBase(models.Model):
     name = models.CharField(max_length=255, blank=True)
+    plaintext = models.TextField(blank=True, null=True)
     html = models.TextField(blank=True, null=True)
     order = models.IntegerField(default=1) #TODO: ordering
     
