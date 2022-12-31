@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.landing, name='page'),
     path('<str:page_name>/', views.view_by_page_name, name='page'),
-    
+    path('<str:page_name>/<str:chapter_name>', views.view_by_chapter, name='chapter'),
 ]
 # urlpatterns = [
 #     path('', RedirectView.as_view(url='english_football', permanent=False), name='home'),

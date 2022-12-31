@@ -4,11 +4,11 @@
      
         <ul>
           {% for chapter in all_chapters %}
-          <li><a href = #{{ chapter.url_name }}>{{ chapter.name }}</a>
+          <li><a href = {{ chapter.url_name }}>{{ chapter.name }}</a>
             <ul>
     
         {% for heading in chapter.children.all %}
-        <li><a href = #{{ heading.url_name }}>{{ heading.name }}</a>
+        <li><a href = {{ chapter.url_name }}#{{ heading.url_name }}>{{ heading.name }}</a>
           <ul>
              
             {% for level2heading in heading.children.all %}

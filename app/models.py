@@ -40,7 +40,7 @@ class Chapter(models.Model):
     text = models.TextField(blank=True, null=True)
     order = models.IntegerField(default=1) #TODO: ordering
     date_added = models.DateTimeField(default=datetime.now, editable=False)
-    url_name = models.CharField(max_length=255, blank=True, null=True)
+    url_name = models.CharField(max_length=255, blank=True, null=False, unique=True)
 
     exclude = ["date_added"]
 

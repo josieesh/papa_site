@@ -12,14 +12,41 @@ from typing import List
 # HISTORY_PAGE_NAME= 'History'
 # ENG_FOOT_PAGE_NAME= 'English_Football'
 
-CHAPTERS_PER_PAGE = 2
+CHAPTERS_PER_PAGE = 1
 
 
 def landing(request) -> HttpResponse:
-    response = redirect('/english_football/')
+    all_pages: List[Page] = list(Page.objects.all())
+    
+    # If there are no pages, return the default homepage
+    if not all_pages:
+        return render(request, 'home.html')
+    
+    page = all_pages[0]
+    chapters = Chapter.objects.filter(parent=page).order_by('order')
+    chapter = chapters[0]
+    response = redirect(f'/{page.url_name}/{chapter.url_name}')
     return response
-  
 
+def view_by_chapter(request, page_name: str = "", chapter_name: str = "") -> HttpResponse:
+    page = Page.objects.get(url_name=page_name)
+    chapters = Chapter.objects.filter(
+                parent=page).order_by("order")
+    chapter = chapters.get(url_name=chapter_name)
+
+    paginator = Paginator(chapters, 1)
+    chapter_number = chapter.order
+    page_obj = paginator.get_page(chapter_number)
+
+    context = {
+                'page_name': page.name,
+                'chapter': chapter,
+                'all_chapters': chapters,
+                'paginated_chapters': page_obj,
+            }
+    return render(request, 'chapter.html', context=context)
+
+  
 def view_by_page_name(request, page_name: str = "") -> HttpResponse:
     all_pages: List[Page] = list(Page.objects.all())
     # If there are no pages, return the default homepage

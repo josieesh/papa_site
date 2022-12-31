@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+
+{% block title %}{{page_name}} - {{chapter.name}}{% endblock %}
+
+{% block content %}
+<div class="content_container">
+    {% include "toc.html" %}
+        
+    <h1 id={{chapter.url_name}}>{{ chapter.name }}</h1>
+     {{ chapter.text|linebreaks }}
+    
+        {% for heading in chapter.children.all %}
+            <h2 id={{heading.url_name}}>{{ heading.name }}</h2>
+            {% if heading.is_html %}
+                {{ heading.text|safe }}
+            {% else %}
+                {{ heading.text|linebreaks }}
+            {% endif %}
+             
+            {% for level2heading in heading.children.all %}
+                <h3 id={{level2heading.url_name}}>{{ level2heading.name }}</h3>
+                {% if level2heading.is_html %}
+                    {{ level2heading.text|safe }}
+                {% else %}
+                    {{ level2heading.text|linebreaks }}
+                {% endif %}
+                
+                {% for level3heading in level2heading.children.all %}
+                <h3 id={{level3heading.url_name}}>{{ level3heading.name }}</h3>
+                    {% if level3heading.is_html %}
+                        {{ level3heading.text|safe }}
+                    {% else %}
+                        {{ level3heading.text|linebreaks }}
+                    {% endif %}
+
+                    {% for level4heading in level3heading.children.all %}
+                        <h3 id={{level4heading.url_name}}>{{ level4heading.name }}</h3>
+                        {% if level4heading.is_html %}
+                            {{ level4heading.text|safe }}
+                        {% else %}
+                            {{ level4heading.text|linebreaks }}
+                        {% endif %}
+                        {% for table in level4heading.tables.all %}
+                            {{ table.html|safe }}
+                            <br>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for table in level3heading.tables.all %}
+                        {{ table.html|safe }}
+                        <br>
+                    {% endfor %}
+                {% endfor %}
+                {% for table in level2heading.tables.all %}
+                    {{ table.html|safe }}
+                    <br>
+                {% endfor %}
+            {% endfor %}
+            {% for table in heading.tables.all %}
+                {{ table.html|safe }}
+                <br>
+            {% endfor %}
+        {% endfor %}
+        {% for table in chapter.tables.all %}
+            {{ table.html|safe }}
+            <br>
+        {% endfor %}
+    
+</div>
+
+<!--Pagination-->
+
+<span class="step-links">
+    {% if paginated_chapters.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ paginated_chapters.previous_page_number }}">previous</a>
+    {% endif %}
+</span>
+<span class="current">
+    Page {{ paginated_chapters.number }} of {{ paginated_chapters.paginator.num_pages }}
+</span>
+<div class="pagination">
+{% if paginated_chapters.has_next %}
+    <a href="?page={{ paginated_chapters.next_page_number }}">next</a>
+    <a href="?page={{ paginated_chapters.paginator.num_pages }}">last &raquo;</a>
+{% endif %}
+    
+</div>
+    
+  <!--end of Pagination-->
+
+  <style>
+    .pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: center;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color: #ee8888;
+  color: white;
+}
+
+.pagination a:hover:not(.active) {background-color: rgb(255, 120, 120);}
+</style>
+{% endblock %}
+
