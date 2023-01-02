@@ -70,17 +70,16 @@
 
 <!--Pagination-->
 
-<span class="step-links">
-        <a href="{{first_chapter_url}}">&laquo; first</a>
-        <a href="{{prev_chapter_url}}">previous</a>
-</span>
+<div class="pagination">
+<a href="{{first_chapter_url}}">&laquo; first</a>
+<a href="{{prev_chapter_url}}">previous</a>
+</div>
 <span class="current">
-    Page {{ index }} of {{ num_chapters }}
+    Page {{ chapter.order }} of {{ num_chapters }}
 </span>
 <div class="pagination">
 <a href="{{next_chapter_url}}">next</a>
 <a href="{{last_chapter_url}}">last &raquo;</a>
-    
 </div>
     
   <!--end of Pagination-->

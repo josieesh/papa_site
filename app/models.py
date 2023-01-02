@@ -51,7 +51,7 @@ class Chapter(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.url_name:
-            self.url_name = self.parent.url_name + "_" + self.name.replace(" ", "_")
+            self.url_name = self.name.replace(" ", "_")
 
         if self.order is None:
             # How many chapters are already saved to this page?
@@ -82,7 +82,7 @@ class Heading1(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.url_name:
-            self.url_name = self.parent.url_name + "_" + self.name.replace(" ", "_")
+            self.url_name = self.name.replace(" ", "_")
         super(Heading1, self).save(*args, **kwargs)
 
 class Heading1Table(TableBase):
@@ -105,7 +105,7 @@ class Heading2(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.url_name:
-            self.url_name = self.parent.url_name + "_" + self.name.replace(" ", "_")
+            self.url_name = self.name.replace(" ", "_")
         super(Heading2, self).save(*args, **kwargs)
 
 class Heading2Table(TableBase):
@@ -127,7 +127,7 @@ class Heading3(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.url_name:
-            self.url_name = self.parent.url_name + "_" + self.name.replace(" ", "_")
+            self.url_name = self.name.replace(" ", "_")
         super(Heading3, self).save(*args, **kwargs)
 
 class Heading3Table(TableBase):
@@ -149,7 +149,7 @@ class Heading4(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.url_name:
-            self.url_name = self.parent.url_name + "_" + self.name.replace(" ", "_")
+            self.url_name = self.name.replace(" ", "_")
         super(Heading4, self).save(*args, **kwargs)
 
 class Heading4Table(TableBase):
