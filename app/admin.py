@@ -43,10 +43,6 @@ class BaseTableForm(forms.ModelForm):
             print(plaintext)
             instance.html = create_html_table(plaintext)
             instance.plaintext = plaintext
-            
-            print("\n\n\n")
-            print(instance.html)
-            print("\n\n\n")
 
             instance.save()
         return instance

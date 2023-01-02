@@ -24,7 +24,7 @@ class Page(models.Model):
     name = models.CharField(max_length=255)
     url_name = models.CharField(max_length=255, blank=True, null=True)
 
-    # exclude = ["url_name"]
+    exclude = ["url_name"]
 
     def __str__(self):
         return self.name
@@ -38,7 +38,7 @@ class Chapter(models.Model):
     parent = models.ForeignKey(Page, verbose_name="Page", on_delete=models.CASCADE, related_name='children')
     name = models.CharField(max_length=255, blank=False)
     text = models.TextField(blank=True, null=True)
-    order = models.IntegerField(default=1) #TODO: ordering
+    order = models.IntegerField(null=False, blank=True, unique=True)
     date_added = models.DateTimeField(default=datetime.now, editable=False)
     url_name = models.CharField(max_length=255, blank=True, null=False, unique=True)
 
@@ -52,6 +52,11 @@ class Chapter(models.Model):
     def save(self, *args, **kwargs):
         if not self.url_name:
             self.url_name = self.parent.url_name + "_" + self.name.replace(" ", "_")
+
+        if self.order is None:
+            # How many chapters are already saved to this page?
+            num_chapters = Chapter.objects.filter(parent=self.parent).count()
+            self.order = num_chapters + 1
         super(Chapter, self).save(*args, **kwargs)
 
 class ChapterTable(TableBase):

@@ -25,60 +25,45 @@ def landing(request) -> HttpResponse:
     page = all_pages[0]
     chapters = Chapter.objects.filter(parent=page).order_by('order')
     chapter = chapters[0]
-    response = redirect(f'/{page.url_name}/{chapter.url_name}')
-    return response
+    return redirect(f'/{page.url_name}/{chapter.url_name}')
 
 def view_by_chapter(request, page_name: str = "", chapter_name: str = "") -> HttpResponse:
     page = Page.objects.get(url_name=page_name)
     chapters = Chapter.objects.filter(
                 parent=page).order_by("order")
     chapter = chapters.get(url_name=chapter_name)
-
-    paginator = Paginator(chapters, 1)
-    chapter_number = chapter.order
-    page_obj = paginator.get_page(chapter_number)
+    
+    index = chapter.order
+    first_chapter_url = chapters[0].url_name
+    last_chapter_url = chapters[len(chapters) - 1].url_name
+    next_chapter_url = chapters[index + 1].url_name if index < (len(chapters) - 1) else chapter.url_name
+    prev_chapter_url = chapters[index - 1].url_name if index > 0 else chapter.url_name
 
     context = {
                 'page_name': page.name,
                 'chapter': chapter,
+                "first_chapter_url": first_chapter_url,
+                "last_chapter_url": last_chapter_url,
+                "prev_chapter_url": prev_chapter_url,
+                "next_chapter_url": next_chapter_url,
                 'all_chapters': chapters,
-                'paginated_chapters': page_obj,
+                "num_chapters": len(chapters),
             }
     return render(request, 'chapter.html', context=context)
 
   
 def view_by_page_name(request, page_name: str = "") -> HttpResponse:
-    all_pages: List[Page] = list(Page.objects.all())
-    # If there are no pages, return the default homepage
-    if not all_pages:
+    try:
+        page = Page.objects.get(url_name=page_name)
+    except Page.DoesNotExist:
+        # Return the default homepage
         return render(request, 'home.html')
-
-    for page in all_pages:
-        if page.url_name == page_name:
-            chapters = Chapter.objects.filter(
-                parent=page).order_by('order')
-
-            paginator = Paginator(chapters, CHAPTERS_PER_PAGE)
-            page_number = request.GET.get('page')
-            page_obj = paginator.get_page(page_number)
-	
-            context = {
-                'page_name': page.name,
-                # 'html': html,
-                'all_chapters': chapters,
-                'paginated_chapters': page_obj,
-                'all_pages': all_pages,
-                'chapters_per_page': CHAPTERS_PER_PAGE,
-            }
-            # return render(request=request, template_name="main/movies.html", context={'movies':page_obj})
-            return render(request, 'page.html', context=context)
-
-    # By default try to return the first page in the list
-    #html = build_page_html(all_pages[0])
-    context = {
-    }
-    return render(request, 'page.html', context=context)   
     
+    chapters = Chapter.objects.filter(
+                parent=page).order_by('order')
+    # Display the first chapter
+    chapter = chapters[0]
+    return redirect(f'/{page.url_name}/{chapter.url_name}')
     
 
 
